@@ -1,14 +1,29 @@
 using CodeBibliotec.Context;
+using CodeBibliotec.Interfaces;
+using CodeBibliotec.Repositories;
+using CodeBibliotec.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//builder.Services.AddControllers()
+//    .AddJsonOptions(options =>
+//    {
+//        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+//    });
 
 // Pegando a connection string
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Registrando o DbContext
 builder.Services.AddDbContext<BibliotecContext>(options => options.UseSqlServer(connectionString));
+
+// Registra dependencias (injeção de dependencias)
+// onde AddScoped define que uma nova instancia do servico será criada para cada requisição HTTP; Também é feita a associação entre as interfaces e suas respectivas implementações
+builder.Services.AddScoped<ILivroRepository, LivroRepository>();
+builder.Services.AddScoped<ILivroService, LivroService>();
+
 
 // Add services to the container.
 

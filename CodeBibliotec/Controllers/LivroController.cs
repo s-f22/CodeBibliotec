@@ -17,6 +17,25 @@ namespace CodeBibliotec.Controllers
 
 
 
+        [HttpGet]
+        public async Task<IActionResult> ListarTodosLivros()
+        {
+            try
+            {
+                var livros = await _livroService.ObterTodosLivrosAsync();
+                return Ok(livros);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { mensagem = "Erro ao listar livros", erro = ex.Message });
+            }
+
+
+
+        }
+
+
+
 
     }
 }

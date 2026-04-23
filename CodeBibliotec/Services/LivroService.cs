@@ -62,10 +62,17 @@ namespace CodeBibliotec.Services
         private LivroResponseDto MapToLivroResponseDto(Livro livro)
         {
             if (livro == null) 
-            {
-                return null;
-            }
+                return null!;
 
+            return new LivroResponseDto 
+            { 
+                Id = livro.Id,
+                Titulo = livro.Titulo,
+                Autor = livro.Autor,
+                AnoPublicacao = livro.AnoPublicacao,
+                Status = livro.Status,
+                IdCategoria = livro.IdCategoria.Select(c => new CategoriaNomeDto { Nome = c.Nome}).ToList(),
+            };
 
 
         }

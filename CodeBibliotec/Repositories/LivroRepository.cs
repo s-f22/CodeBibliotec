@@ -50,9 +50,11 @@ namespace CodeBibliotec.Repositories
 
 
 
-        public Task<List<Livro>> ObterTodosLivrosAsync()
+        public async Task<List<Livro>> ObterTodosLivrosAsync()
         {
-            return _context.Livros.Include(l => l.IdCategoria).ToListAsync();
+            return await _context.Livros
+                .Include(l => l.IdCategoria)
+                .ToListAsync();
         }
 
 
