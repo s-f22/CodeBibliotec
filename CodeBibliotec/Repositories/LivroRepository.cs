@@ -27,9 +27,21 @@ namespace CodeBibliotec.Repositories
 
 
 
-        public Task<Livro> CadastrarLivroAsync(Livro livro)
+        public async Task<Livro> CadastrarLivroAsync(Livro livro)
         {
-            throw new NotImplementedException();
+            if (livro.IdCategoria != null && livro.IdCategoria.Any())
+            {
+                var categoriaIds = livro.IdCategoria.Select(c => c.Id).ToList();
+
+                livro.IdCategoria = await _context.Categoria.Where(c => categoriaIds.Contains(c.Id)).ToListAsync();
+            }
+
+            _context.Livros.Add(livro);
+
+            await _context.SaveChangesAsync();
+
+            return livro;
+
         }
 
 
