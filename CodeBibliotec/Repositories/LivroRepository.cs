@@ -42,9 +42,9 @@ namespace CodeBibliotec.Repositories
 
 
 
-        public Task<Livro> ObterLivroPorIdAsync(int id)
+        public async Task<Livro> ObterLivroPorIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Livros.Include(l => l.IdCategoria).FirstOrDefaultAsync(l => l.Id == id);
         }
 
 

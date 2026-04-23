@@ -41,9 +41,10 @@ namespace CodeBibliotec.Services
 
 
 
-        public Task<LivroResponseDto> ObterLivroPorIdAsync(int id)
+        public async Task<LivroResponseDto> ObterLivroPorIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var livro = await _livroRepository.ObterLivroPorIdAsync(id);
+            return MapToLivroResponseDto(livro);
         }
 
 
