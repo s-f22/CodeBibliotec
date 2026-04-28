@@ -82,6 +82,31 @@ namespace CodeBibliotec.Controllers
         }
 
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> AtualizarLivro(int id, LivroViewModel livroViewModel)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+
+            }
+            catch(ArgumentException ex)
+            {
+
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+        }
+
+
+
+
+
 
     }
 }

@@ -17,15 +17,35 @@ namespace CodeBibliotec.Services
 
 
 
-        public Task<bool> AtualizarLivroAsync(int id, LivroViewModel livroViewModel)
+        public async Task<bool> AtualizarLivroAsync(int id, LivroViewModel livroViewModel)
         {
-            throw new NotImplementedException();
+            var livro = new Livro
+            {
+                Id = id,
+                Titulo = livroViewModel.Titulo,
+                Autor = livroViewModel.Autor,
+                AnoPublicacao = livroViewModel.AnoPublicacao,
+
+                Status = string.IsNullOrWhiteSpace(livroViewModel.Status)
+                    ? "Disponível"
+                    : livroViewModel.Status.Trim()
+            };
+
+            if (livroViewModel.CategoriaIds != null)
+            {
+                livro.IdCategoria = livroViewModel.CategoriaIds
+                    .Select(id => new Categorium { Id = id, Nome = string.Empty})
+                    .ToList();
+            }
+
+            return await _livroRepository.AtualizarLivroAsync(id, livro);
+
         }
 
 
 
 
-        public async Task<Livro> CadastrarLivroAsync(LivroViewModel livroViewModel)
+        public async Task<LivroResponseDto> CadastrarLivroAsync(LivroViewModel livroViewModel)
         {
             var livro = new Livro
             {
@@ -45,7 +65,9 @@ namespace CodeBibliotec.Services
                     .Select(id => new Categorium { Id = id, Nome = string.Empty}).ToList();
             }
 
-            return await _livroRepository.CadastrarLivroAsync(livro);
+            var response = await _livroRepository.CadastrarLivroAsync(livro);
+
+            return MapToLivroResponseDto(response);
 
 
         }

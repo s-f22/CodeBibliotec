@@ -20,9 +20,43 @@ namespace CodeBibliotec.Repositories
 
 
 
-        public Task<bool> AtualizarLivroAsync(int id, Livro livro)
+        public async Task<bool> AtualizarLivroAsync(int id, Livro livro)
         {
-            throw new NotImplementedException();
+            var livroExistente = await _context.Livros
+                .Include(l => l.IdCategoria)
+                .FirstOrDefaultAsync(l => l.Id == id);
+
+            if (livroExistente == null)
+                return false;
+
+            livroExistente.Titulo = livro.Titulo;
+            livroExistente.Autor = livro.Autor;
+            livroExistente.AnoPublicacao = livro.AnoPublicacao;
+            livroExistente.Status = livro.Status;
+
+            if (livro.IdCategoria != null)
+            {
+                var categoriaIds = livro.IdCategoria.Select(c => c.Id).ToList();
+
+                var categorias = await _context.Categoria
+                    .Where(c => categoriaIds.Contains(c.Id))
+                    .ToListAsync();
+
+                livroExistente.IdCategoria.Clear();
+
+                foreach (var categoria in categorias)
+                {
+                    livroExistente.IdCategoria.Add(categoria);
+                }
+
+            }
+
+            _context.Livros.Update(livroExistente);
+
+            await _context.SaveChangesAsync();
+
+            return true;
+
         }
 
 
