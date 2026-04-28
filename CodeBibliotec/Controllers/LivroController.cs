@@ -1,4 +1,5 @@
 ﻿using CodeBibliotec.Interfaces;
+using CodeBibliotec.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -52,6 +53,35 @@ namespace CodeBibliotec.Controllers
                 return StatusCode(500, new { mensagem = "Erro ao obter o livro", erro = ex.Message });
             }
         }
+
+
+        [HttpPost("cadastrar")]
+        public async Task<IActionResult> CadastrarLivro(LivroViewModel livroViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var livro = await _livroService.CadastrarLivroAsync(livroViewModel);
+
+                return CreatedAtAction(nameof(ObterLivroPorId), new { id = livro.Id }, livro);
+
+            }
+            catch(ArgumentException ex)
+            {
+                return BadRequest(new {mensagem = ex.Message});
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, new { mensagem = "Erro ao cadastrar o livro", erro = ex.Message });
+            }
+
+        }
+
+
 
     }
 }

@@ -16,7 +16,7 @@ namespace CodeBibliotec.ViewModels
 
         [Required(ErrorMessage = "O ano de publicação é obrigatório")]
         [Range(0, 2026, ErrorMessage = "O ano deve ser válido")]
-        public int AnoPublicacao { get; set; }
+        public int AnoPublicacao { get; set; } = 0;
 
         [StringLength(20, ErrorMessage = "O status não pode exceder 20 caracteres")]
         public string Status { get; set; }

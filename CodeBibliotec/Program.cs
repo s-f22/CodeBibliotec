@@ -7,11 +7,7 @@ using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Services.AddControllers()
-//    .AddJsonOptions(options =>
-//    {
-//        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
-//    });
+
 
 // Pegando a connection string
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -27,7 +23,14 @@ builder.Services.AddScoped<ILivroService, LivroService>();
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+// Add Serialização para evitar erros de ciclo
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
+
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 

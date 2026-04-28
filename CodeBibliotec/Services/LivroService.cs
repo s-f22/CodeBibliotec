@@ -25,9 +25,29 @@ namespace CodeBibliotec.Services
 
 
 
-        public Task<Livro> CadastrarLivroAsync(LivroViewModel livroViewModel)
+        public async Task<Livro> CadastrarLivroAsync(LivroViewModel livroViewModel)
         {
-            throw new NotImplementedException();
+            var livro = new Livro
+            {
+                Titulo = livroViewModel.Titulo,
+                Autor = livroViewModel.Autor,
+                AnoPublicacao = livroViewModel.AnoPublicacao,
+
+                Status = string.IsNullOrWhiteSpace(livroViewModel.Status)
+                    ? "Disponível"
+                    : livroViewModel.Status.Trim()
+
+            };
+
+            if (livroViewModel.CategoriaIds != null && livroViewModel.CategoriaIds.Any())
+            {
+                livro.IdCategoria = livroViewModel.CategoriaIds
+                    .Select(id => new Categorium { Id = id, Nome = string.Empty}).ToList();
+            }
+
+            return await _livroRepository.CadastrarLivroAsync(livro);
+
+
         }
 
 
