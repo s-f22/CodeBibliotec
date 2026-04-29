@@ -80,9 +80,17 @@ namespace CodeBibliotec.Repositories
 
 
 
-        public Task<bool> DeletarLivroAsync(int id)
+        public async Task<bool> DeletarLivroAsync(int id)
         {
-            throw new NotImplementedException();
+            var livro = await _context.Livros.FirstOrDefaultAsync(l => l.Id == id);
+
+            if (livro == null)
+                return false;
+
+            _context.Livros.Remove(livro);
+            await _context.SaveChangesAsync();
+
+            return true;
         }
 
 

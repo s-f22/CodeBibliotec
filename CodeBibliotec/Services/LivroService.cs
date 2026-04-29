@@ -75,9 +75,9 @@ namespace CodeBibliotec.Services
 
 
 
-        public Task<bool> DeletarLivroAsync(int id)
+        public async Task<bool> DeletarLivroAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _livroRepository.DeletarLivroAsync(id);
         }
 
 

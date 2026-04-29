@@ -109,7 +109,25 @@ namespace CodeBibliotec.Controllers
         }
 
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletarLivro(int id)
+        {
+            try
+            {
+                var resultado = await _livroService.DeletarLivroAsync(id);
 
+                if (resultado != true) // equivale a utilizar (!resultado)
+                    return NotFound(new { mensagem = "Livro não foi encontrado" });
+
+                return Ok(new { mensagem = "Livro deletado com sucesso" });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { mensagem = "Erro ao deletar livro", erro = ex.Message });
+            }
+
+        }
 
 
 
