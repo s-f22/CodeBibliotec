@@ -90,15 +90,20 @@ namespace CodeBibliotec.Controllers
 
             try
             {
+                var resultado = await _livroService.AtualizarLivroAsync(id, livroViewModel);
 
+                if(!resultado)
+                    return NotFound(new {mensagem = "Livro não encontrado"});
+
+                return Ok(new {mensagem = "Livro atualizado com sucesso"});
             }
             catch(ArgumentException ex)
             {
-
+                return BadRequest(new {mensagem = ex.Message});
             }
             catch(Exception ex)
             {
-
+                return StatusCode(500, new { mensagem = "Erro ao atualizar livro", erro = ex.Message });
             }
 
         }
