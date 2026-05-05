@@ -19,6 +19,8 @@ builder.Services.AddDbContext<BibliotecContext>(options => options.UseSqlServer(
 // onde AddScoped define que uma nova instancia do servico será criada para cada requisição HTTP; Também é feita a associação entre as interfaces e suas respectivas implementações
 builder.Services.AddScoped<ILivroRepository, LivroRepository>();
 builder.Services.AddScoped<ILivroService, LivroService>();
+builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 
 
 // Add services to the container.
