@@ -54,6 +54,16 @@ namespace CodeBibliotec.Controllers
                 var issuer = _configuration["Jwt:Issuer"];
                 var audience = _configuration["Jwt:Audience"];
 
+                if(
+                    string.IsNullOrWhiteSpace(secretKey) ||
+                    string.IsNullOrWhiteSpace(issuer) ||
+                    string.IsNullOrWhiteSpace(audience)
+                )
+                {
+                    return StatusCode(500, "Configuração JWT ausente ou inválida");
+                }
+
+
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 
                 var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

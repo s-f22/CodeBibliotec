@@ -1,6 +1,7 @@
 ﻿using CodeBibliotec.Context;
 using CodeBibliotec.Domains;
 using CodeBibliotec.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodeBibliotec.Repositories
 {
@@ -16,14 +17,17 @@ namespace CodeBibliotec.Repositories
 
 
 
-        public Task<Usuario?> ObterPorEmailESenhaAsync(string email, string senha)
+        public async Task<Usuario?> ObterPorEmailESenhaAsync(string email, string senha)
         {
-            throw new NotImplementedException();
+            return await _context.Usuarios
+                .Include(u => u.Aluno)
+                .Include(u => u.Bibliotecarium)
+                .FirstOrDefaultAsync(u => u.Email == email && u.Senha == senha);
         }
 
-        public Task<bool> UsuarioEhBibliotecariaAsync(int usuarioId)
+        public async Task<bool> UsuarioEhBibliotecariaAsync(int usuarioId)
         {
-            throw new NotImplementedException();
+            return await _context.Bibliotecaria.AnyAsync(b => b.IdUsuario == usuarioId);
         }
     }
 }

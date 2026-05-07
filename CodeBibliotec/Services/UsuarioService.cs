@@ -15,14 +15,14 @@ namespace CodeBibliotec.Services
 
 
 
-        public Task<bool> UsuarioEhBibliotecariaAsync(int usuarioId)
+        public async Task<bool> UsuarioEhBibliotecariaAsync(int usuarioId)
         {
-            throw new NotImplementedException();
+            return await _usuarioRepository.UsuarioEhBibliotecariaAsync(usuarioId);
         }
 
-        public Task<Usuario?> ValidarEmailSenhaAsync(LoginViewModel login)
+        public async Task<Usuario?> ValidarEmailSenhaAsync(LoginViewModel login)
         {
-            throw new NotImplementedException();
+            return await _usuarioRepository.ObterPorEmailESenhaAsync(login.Email, login.Senha);
         }
     }
 }
