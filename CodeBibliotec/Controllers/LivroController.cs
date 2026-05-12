@@ -1,11 +1,13 @@
 ﻿using CodeBibliotec.Interfaces;
 using CodeBibliotec.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeBibliotec.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class LivroController : ControllerBase
     {
@@ -37,6 +39,7 @@ namespace CodeBibliotec.Controllers
 
 
         [HttpGet("{id}")]
+
         public async Task<IActionResult> ObterLivroPorId(int id)
         {
             try
@@ -56,6 +59,7 @@ namespace CodeBibliotec.Controllers
 
 
         [HttpPost("cadastrar")]
+        [Authorize(Roles = "Bibliotecaria")]
         public async Task<IActionResult> CadastrarLivro(LivroViewModel livroViewModel)
         {
             if (!ModelState.IsValid)
@@ -83,6 +87,7 @@ namespace CodeBibliotec.Controllers
 
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Bibliotecaria")]
         public async Task<IActionResult> AtualizarLivro(int id, LivroViewModel livroViewModel)
         {
             if(!ModelState.IsValid)
@@ -110,6 +115,7 @@ namespace CodeBibliotec.Controllers
 
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Bibliotecaria")]
         public async Task<IActionResult> DeletarLivro(int id)
         {
             try

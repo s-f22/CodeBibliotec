@@ -1,11 +1,13 @@
 ﻿using CodeBibliotec.Interfaces;
 using CodeBibliotec.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeBibliotec.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class CategoriaController : ControllerBase
     {
@@ -57,6 +59,7 @@ namespace CodeBibliotec.Controllers
 
 
         [HttpPost("cadastrar")]
+        [Authorize(Roles = "Bibliotecaria")]
         public async Task<IActionResult> CadastrarCategoria(CategoriaViewModel categoriaViewModel)
         {
             // Verifica se os dados enviados no modelo são válidos, conforme a validação de CategoriaViewModel
